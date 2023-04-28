@@ -250,23 +250,23 @@ plt.show()
 ###############################
 
 #Calculate the proportion of team members by position for the Turkish and German teams
-turkey_prop = df_turkey['Position.1'].value_counts(normalize=True).reset_index()
-germany_prop = df_germany['Position.1'].value_counts(normalize=True).reset_index()
+#turkey_prop = df_turkey['Position.1'].value_counts(normalize=True).reset_index()
+#germany_prop = df_germany['Position.1'].value_counts(normalize=True).reset_index()
 
 # Merge the two DataFrames
-prop_by_position = pd.merge(turkey_prop, germany_prop, on='index', suffixes=('_Turkey', '_Germany'))
+#prop_by_position = pd.merge(turkey_prop, germany_prop, on='index', suffixes=('_Turkey', '_Germany'))
 
 # Plot a stacked bar chart of the proportion of team members by position
-prop_by_position.plot(x='index', kind='bar', stacked=True)
+#prop_by_position.plot(x='index', kind='bar', stacked=True)
 
 # Add labels and title
-plt.xlabel('Position')
-plt.ylabel('Proportion of Team Members')
-plt.title('Proportion of Team Members by Position for Turkish and German Teams')
+#plt.xlabel('Position')
+#plt.ylabel('Proportion of Team Members')
+#plt.title('Proportion of Team Members by Position for Turkish and German Teams')
 
 # Add a legend
-plt.legend(['Turkey', 'Germany'])
-plt.show()
+#plt.legend(['Turkey', 'Germany'])
+#plt.show()
 
 #######################################################
 #streamlit code
