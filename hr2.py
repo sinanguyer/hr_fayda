@@ -5,26 +5,26 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import time
-
-
+import plotly.express as px
+import altair as alt
 ##################################################################################################################
 np.random.seed(123)
 job_satisfaction = np.random.randint(1, 11, size=8)
 num_projects = np.random.randint(1, 6, size=8)
 # Creating a sample DataFrame for Turkish Team
 df_turkey = pd.DataFrame({
-    'First Name': ['Batuhan', 'Miray', 'Ender', 'Chahira', 'Sena', 'Sinan', 'Betül', 'Irem'],
-    'Last Name': ['Özdemir', 'Köklü', 'Mutlu', 'Grimes', 'Mise', 'Güyer', 'Yildiz', 'Celik'],
-    'Position': ['Customer Care', 'E&E Technical Coordination', 'E&E Technical Coordination',
-                 'Project Coordinator', 'Quotation Administrator', 'IT Project Analyst',
-                 'Procurement Manager', 'Quotation Administrator'],
-    'Education': ['Bachelor', 'Bachelor', 'Bachelor', 'Bachelor', 'Bachelor', 'PhD', 'Bachelor', 'Bachelor'],
-    'Age': [33, 34, 27, 40, 34, 34, 34, 34],
-    'country': ['Turkey', 'Turkey', 'Turkey', 'Turkey', 'Turkey', 'Turkey', 'Turkey', 'Turkey'],
-    'Sex': ['M', 'F', 'M', 'F', 'F', 'M', 'F', 'F'],
-    'JobSatisfaction': job_satisfaction,
-    'NumProjects': num_projects,
-    'JobTenure': np.random.randint(1, 15, size=8),
+'First Name': ['Batuhan', 'Miray', 'Ender', 'Chahira', 'Sena', 'Sinan', 'Betül', 'Irem'],
+'Last Name': ['Özdemir', 'Köklü', 'Mutlu', 'Grimes', 'Mise', 'Güyer', 'Yildiz', 'Celik'],
+'Position': ['Customer Care', 'E&E Technical Coordination', 'E&E Technical Coordination',
+'Project Coordinator', 'Quotation Administrator', 'IT Project Analyst',
+'Procurement Manager', 'Quotation Administrator'],
+'Education': ['Bachelor', 'Bachelor', 'Bachelor', 'Bachelor', 'Bachelor', 'PhD', 'Bachelor', 'Bachelor'],
+'Age': [33, 34, 27, 40, 34, 34, 34, 34],
+'country': ['Turkey', 'Turkey', 'Turkey', 'Turkey', 'Turkey', 'Turkey', 'Turkey', 'Turkey'],
+'Sex': ['M', 'F', 'M', 'F', 'F', 'M', 'F', 'F'],
+'JobSatisfaction': job_satisfaction,
+'NumProjects': num_projects,
+'JobTenure': np.random.randint(1, 15, size=8),
 
 })
 
@@ -53,17 +53,17 @@ df_turkey['Food Payment'] = 500
 df_turkey['Shuttle fee'] = 1000
 df_turkey['Other Office Cost(Rent,IT etc)'] = 2000
 df_turkey['Total Montly Cost'] = df_turkey['Monthly Gross Wage'] + df_turkey['Social Security Cost'] + \
-                                 df_turkey['Private health insurance'] + df_turkey['Food Payment'] + df_turkey[
-                                     'Shuttle fee'] + \
-                                 df_turkey['Other Office Cost(Rent,IT etc)']
+df_turkey['Private health insurance'] + df_turkey['Food Payment'] + df_turkey[
+'Shuttle fee'] + \
+df_turkey['Other Office Cost(Rent,IT etc)']
 df_turkey['Position.1'] = df_turkey['Position']
 df_turkey['Recruiter Cost'] = df_turkey['Monthly Gross Wage'] * 0.1
 df_turkey['Advertising Cost'] = np.random.randint(100, 1000, size=8)
 df_turkey['Date of Employment'] = ['19.09.2022', '19.09.2022', '19.09.2022', '2.01.2023', '2.01.2023', '2.01.2023',
-                                   '2.01.2023', '01.02.2023']
+'2.01.2023', '01.02.2023']
 # df_turkey['Duration of Employment'] = df_turkey['today'] - df_turkey['Date of Employment']
 df_turkey['Total Cost'] = df_turkey['Total Montly Cost'] * df_turkey['Duration of Employment'] + \
-                          df_turkey['Recruiter Cost'] + df_turkey['Advertising Cost']
+df_turkey['Recruiter Cost'] + df_turkey['Advertising Cost']
 df_turkey['Annual PC'] = df_turkey['Total Montly Cost'] * 12
 df_turkey['Annual Total Cost'] = df_turkey['Total Cost'] * 12
 
@@ -77,25 +77,20 @@ df_turkey['DistanceFromHome'] = np.random.randint(1, 30, size=len(df_turkey))
 df_turkey['MonthlyHours'] = np.random.randint(140, 300, size=len(df_turkey))
 df_turkey['OvertimeHours'] = np.random.randint(0, 50, size=len(df_turkey))
 
-print(df_turkey)
-
-######################################################################################################################
-
-#Germany Team
 
 df_germany = pd.DataFrame({
-    'First Name': ['Max', 'Sophie', 'Jan', 'Lena', 'Felix', 'Emilia', 'Moritz', 'Hannah'],
-    'Last Name': ['Schneider', 'Müller', 'Bauer', 'Fischer', 'Weber', 'Hoffmann', 'Schmitt', 'Keller'],
-    'Position': ['Customer Care', 'E&E Technical Coordination', 'E&E Technical Coordination',
-                 'Project Coordinator', 'Quotation Administrator', 'IT Project Analyst',
-                 'Procurement Manager', 'Quotation Administrator'],
-    'Education': ['Bachelor', 'Bachelor', 'Bachelor', 'Master', 'Bachelor', 'Master', 'Master', 'Bachelor'],
-    'Age': [37, 38, 45, 40, 39, 38, 41, 38],
-    'country':['Germany','Germany','Germany','Germany','Germany','Germany','Germany','Germany'],
-    'Sex': ['M', 'M', 'M', 'F', 'M', 'M', 'M', 'F'],
-    'JobSatisfaction': job_satisfaction,
-    'NumProjects': num_projects,
-    'JobTenure': np.random.randint(1, 15, size=8),
+'First Name': ['Max', 'Sophie', 'Jan', 'Lena', 'Felix', 'Emilia', 'Moritz', 'Hannah'],
+'Last Name': ['Schneider', 'Müller', 'Bauer', 'Fischer', 'Weber', 'Hoffmann', 'Schmitt', 'Keller'],
+'Position': ['Customer Care', 'E&E Technical Coordination', 'E&E Technical Coordination',
+'Project Coordinator', 'Quotation Administrator', 'IT Project Analyst',
+'Procurement Manager', 'Quotation Administrator'],
+'Education': ['Bachelor', 'Bachelor', 'Bachelor', 'Master', 'Bachelor', 'Master', 'Master', 'Bachelor'],
+'Age': [37, 38, 45, 40, 39, 38, 41, 38],
+'country':['Germany','Germany','Germany','Germany','Germany','Germany','Germany','Germany'],
+'Sex': ['M', 'M', 'M', 'F', 'M', 'M', 'M', 'F'],
+'JobSatisfaction': job_satisfaction,
+'NumProjects': num_projects,
+'JobTenure': np.random.randint(1, 15, size=8),
 })
 
 
@@ -127,13 +122,13 @@ df_germany['Food Payment'] = 700
 df_germany['Shuttle fee'] = 1200
 df_germany['Other Office Cost(Rent,IT etc)'] = 2500
 df_germany['Total Montly Cost'] = df_germany['Monthly Gross Wage'] + df_germany['Social Security Cost'] + \
-    df_germany['Private health insurance'] + df_germany['Food Payment'] + df_germany['Shuttle fee'] + \
-    df_germany['Other Office Cost(Rent,IT etc)']
+df_germany['Private health insurance'] + df_germany['Food Payment'] + df_germany['Shuttle fee'] + \
+df_germany['Other Office Cost(Rent,IT etc)']
 df_germany['Position.1'] = df_germany['Position']
 df_germany['Recruiter Cost'] = df_germany['Monthly Gross Wage'] * 0.1
 df_germany['Advertising Cost'] = np.random.randint(100, 1000, size=8)
 df_germany['Total Cost'] = df_germany['Total Montly Cost'] * df_germany['Duration of Employment'] + \
-    df_germany['Recruiter Cost'] + df_germany['Advertising Cost']
+df_germany['Recruiter Cost'] + df_germany['Advertising Cost']
 df_germany['Annual PC'] = df_germany['Total Montly Cost'] * 12
 df_germany['Annual Total Cost'] = df_germany['Total Cost'] * 12
 df_germany['today'] = pd.Timestamp('now').strftime("%Y-%m-%d")
@@ -146,135 +141,173 @@ df_germany['MonthlyHours'] = np.random.randint(140, 300, size=len(df_germany))
 df_germany['OvertimeHours'] = np.random.randint(0, 50, size=len(df_germany))
 
 
-print(df_germany)
-######################################################################################################################
 
 
-#Here comes the charts
+### streamlit part
+#st.title('Turkish Team')
+#st.write(df_turkey)
+#columns = st.sidebar.selectbox("Select column to plot", df_turkey.columns)
 
-# Create a scatter plot with age on the x-axis and salary on the y-axis for the Turkish team
-sns.scatterplot(data=df_germany, x='Age', y='Monthly Gross Wage', hue='Education', style='Position.1')
+# Create the plot based on the selected column
+#fig = px.histogram(df_turkey, x=columns, nbins=20)
 
-# Add labels and title
-plt.xlabel('Age')
-plt.ylabel('Salary')
-plt.title('Salary vs Age for the Germany Team')
-plt.show()
+# Show the plot
+#st.plotly_chart(fig)
 
-sns.scatterplot(data=df_turkey, x='Age', y='Monthly Gross Wage', hue='Education', style='Position.1')
+df = pd.concat([df_turkey, df_germany], ignore_index=True)
 
-# Add labels and title
-plt.xlabel('Age')
-plt.ylabel('Salary')
-plt.title('Salary vs Age for the Turkish Team')
-plt.show()
 
-# Calculate the average salary for each position in the German team
-avg_salary = df_germany.groupby(['Position.1'])['Monthly Gross Wage'].mean().reset_index()
+#df_combined = pd.concat([df_germany, df_turkey])
 
-# Create a bar chart with the average salary for each position in the German team
-ax =sns.barplot(data=avg_salary, x='Position.1', y='Monthly Gross Wage')
-# Tilt the x-axis labels by 45 degrees
-ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
-# Add labels and title
-plt.xlabel('Position')
-plt.ylabel('Average Salary')
-plt.title('Average Salary by Position for the German Team')
-plt.show()
+# Display data editor and allow user to select country
+with st.sidebar:
+    country = st.selectbox('Select a country', ['Germany', 'Turkey'])
 
-########################################################################################################
+# Filter data based on country selection
+if country == 'Germany':
+    df_filtered = df_germany
+else:
+    df_filtered = df_turkey
 
-# Calculate the average salary for each position in the Turkish team
-avg_salary = df_turkey.groupby(['Position.1'])['Monthly Gross Wage'].mean().reset_index()
+# Display filtered data
+with st.container():
+    st.write(f"{country} data")
 
-# Create a bar chart with the average salary for each position in the German team
-ax =sns.barplot(data=avg_salary, x='Position.1', y='Monthly Gross Wage')
-# Tilt the x-axis labels by 45 degrees
-ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
-# Add labels and title
-plt.xlabel('Position')
-plt.ylabel('Average Salary')
-plt.title('Average Salary by Position for the Turkish Team')
-plt.show()
+if country == 'Germany':
+    df = pd.concat([st.experimental_data_editor(df_filtered),df_turkey])
+else:
+    df = pd.concat([st.experimental_data_editor(df_filtered),df_germany])
+# Define the columns to display in the selectbox
+columns = ['First Name', 'Last Name', 'Position', 'Education', 'Age', 'country',
+'Sex', 'JobSatisfaction', 'NumProjects', 'JobTenure',
+'numcompanieswork', 'Duration of Employment', 'Attrition',
+'Monthly Gross Wage', 'Social Security Cost',
+'Private health insurance', 'Food Payment', 'Shuttle fee',
+'Other Office Cost(Rent,IT etc)', 'Total Montly Cost', 'Position.1',
+'Recruiter Cost', 'Advertising Cost', 'Date of Employment',
+'Total Cost', 'Annual PC', 'Annual Total Cost', 'TurnoverRate',
+'HappinessOfWorkplace', 'DistanceFromHome', 'MonthlyHours',
+'OvertimeHours']
 
-# Plot a histogram of salaries for the Turkish and German teams
-sns.histplot(data=df_turkey, x='Monthly Gross Wage', label='Turkey', alpha=0.5)
-sns.histplot(data=df_germany, x='Monthly Gross Wage', label='Germany', alpha=0.5)
+# Define the plot types to display in the selectbox
+#plot_types = ['Scatter Plot', 'Parallel Coordinates']
 
-# Add labels and title
-plt.xlabel('Salary')
-plt.ylabel('Count')
-plt.title('Distribution of Salaries for Turkish and German Teams')
+# Define the default values for the selectboxes
+#default_column = 'Age'
+#default_plot_type = 'Scatter Plot'
 
-# Add a legend
-plt.legend()
-plt.show()
+# Define the title for the app
+#st.title('Employee Data Analysis')
 
-######################################################################################################################
+# Display the selectboxes for the dataframe and columns
+#selected_dataframe = st.selectbox('Select a dataframe:', options=['df_turkey', 'df_german'])
+#selected_column = st.selectbox('Select a column:', options=columns, index=columns.index(default_column))
 
-# Calculate the average salary by education level for the Turkish and German teams
-turkey_avg = df_turkey.groupby('Education')['Monthly Gross Wage'].mean().reset_index()
-germany_avg = df_germany.groupby('Education')['Monthly Gross Wage'].mean().reset_index()
+# Display the selectbox for the plot type
+#selected_plot_type = st.selectbox('Select a plot type:', options=plot_types, index=plot_types.index(default_plot_type))
 
-# Merge the two DataFrames
-avg_salary_by_edu = pd.merge(turkey_avg, germany_avg, on='Education', suffixes=('_Turkey', '_Germany'))
+# Filter the dataframe based on the selected dataframe
+#if selected_dataframe == 'df_turkey':
+#    filtered_df = df_turkey
+#else:
+#    filtered_df = df_germany
+#
+# Create the plot based on the selected plot type
+#if selected_plot_type == 'Scatter Plot':
+#    fig = px.scatter(filtered_df, x=selected_column, y='Monthly Gross Wage', color='Attrition')
+#else:
+#    fig = px.parallel_coordinates(filtered_df, dimensions=[selected_column, 'Monthly Gross Wage', 'Attrition'], color='Attrition')
 
-# Plot a bar chart of the average salary by education level
-sns.barplot(data=avg_salary_by_edu, x='Education', y=df_turkey['Monthly Gross Wage'], label='Turkey', alpha=0.5,palette=['red', 'green', 'blue'])
-sns.barplot(data=avg_salary_by_edu, x='Education', y=df_germany['Monthly Gross Wage'], label='Germany', alpha=0.5)
+# Display the plot
+#st.plotly_chart(fig)
 
-# Add labels and title
-plt.xlabel('Education Level')
-plt.ylabel('Average Salary')
-plt.title('Average Salary by Education Level for Turkish and German Teams')
 
-# Add a legend
-plt.legend()
-plt.show()
+#df = pd.concat([df_turkey, df_germany], ignore_index=True)
+numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+# Get the list of numeric columns
+x_column = numeric_columns[0]
+y_column = numeric_columns[1]
 
-#######################################################################################################################
+# Create dropdown menus to select columns and plot type
+x_axis = st.sidebar.selectbox('Select x-axis:', options=numeric_columns,key=1)
+y_axis = st.sidebar.selectbox('Select y-axis:', options=numeric_columns,key=2)
+plot_type = st.sidebar.selectbox('Select plot type:', options=['Scatter', 'Histogram'])
 
-# Plot a histogram of ages for the Turkish and German teams
-sns.histplot(data=df_turkey, x='Age', label='Turkey', alpha=0.5)
-sns.histplot(data=df_germany, x='Age', label='Germany', alpha=0.5)
+# Filter data by country
+country_filter = st.sidebar.selectbox('Select country:', options=['Turkey', 'Germany', 'All'])
+if country_filter != 'All':
+    df_filtered = df[df['country'] == country_filter]
+else:
+    df_filtered = df
 
-# Add labels and title
-plt.xlabel('Age')
-plt.ylabel('Count')
-plt.title('Distribution of Ages for Turkish and German Teams')
+# Display plot
+if st.sidebar.button("Generate Plots"):
+    st.header(f'{plot_type} plot: {x_axis} vs. {y_axis}')
+    if plot_type == 'Scatter':
+        sns.scatterplot(data=df_filtered, x=x_axis, y=y_axis, hue='country')
+    else:
+        sns.histplot(data=df_filtered, x=x_axis, hue='country', element='step', stat='density')
+        sns.kdeplot(data=df_filtered, x=x_axis, hue='country')
 
-# Add a legend
-plt.legend()
-plt.show()
+# Show the Streamlit app
+    st.pyplot()
 
-###############################
 
-#Calculate the proportion of team members by position for the Turkish and German teams
-#turkey_prop = df_turkey['Position.1'].value_counts(normalize=True).reset_index()
-#germany_prop = df_germany['Position.1'].value_counts(normalize=True).reset_index()
 
-# Merge the two DataFrames
-#prop_by_position = pd.merge(turkey_prop, germany_prop, on='index', suffixes=('_Turkey', '_Germany'))
+# Select only the numeric columns
+# Select only the numeric columns
+num_cols_germany = df_germany.select_dtypes(include=np.number).columns.tolist()
+num_cols_turkey = df_turkey.select_dtypes(include=np.number).columns.tolist()
 
-# Plot a stacked bar chart of the proportion of team members by position
-#prop_by_position.plot(x='index', kind='bar', stacked=True)
+# Create a correlation matrix
 
-# Add labels and title
-#plt.xlabel('Position')
-#plt.ylabel('Proportion of Team Members')
-#plt.title('Proportion of Team Members by Position for Turkish and German Teams')
+corr_matrix_germany = df_germany[num_cols_germany].corr()
+corr_matrix_turkey = df_turkey[num_cols_turkey].corr()
 
-# Add a legend
-#plt.legend(['Turkey', 'Germany'])
-#plt.show()
+# Create a correlation matrix
+corr_matrix_germany = df_germany[num_cols_germany].corr().round(2)
+corr_matrix_turkey = df_turkey[num_cols_turkey].corr().round(2)
 
-#######################################################
-#streamlit code
-st.header("HR Analysis")
-st.subheader("Turkish Team")
-df_turkey = st.experimental_data_editor(df_turkey,num_rows="dynamic")
-st.subheader("German Team")
-df_germany = st.experimental_data_editor(df_germany,num_rows="dynamic")
+# Define a function to generate the correlation matrix plot
 
-hist1 = sns.histplot(data=df_turkey, x='Age', label='Turkey', alpha=0.5)
-st.pyplot(hist1.get_figure())
+def corr_matrix_plot(corr_matrix, title):
+    fig, ax = plt.subplots(figsize=(15, 12))
+    cmap = sns.diverging_palette(220, 10, as_cmap=True)
+    mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+    sns.heatmap(corr_matrix, cmap=cmap, annot=True, fmt=".2f", square=True, mask=mask, ax=ax)
+    ax.set_title(title)
+    st.pyplot(fig)
+
+# Display the correlation matrix plot for Germany data
+if st.sidebar.button("Generate Correlation matrix for Germany"):
+    st.title("Correlation Matrix for Germany Data")
+    corr_matrix_plot(corr_matrix_germany, "Correlation Matrix for Germany Data")
+
+# Display the correlation matrix plot for Turkey data
+if st.sidebar.button("Generate Correlation matrix for Turkey"):
+    st.title("Correlation Matrix for Turkey Data")
+    corr_matrix_plot(corr_matrix_turkey, "Correlation Matrix for Turkey Data")
+
+# Create a button to generate correlations for specific variables
+st.markdown("---")
+st.header("Generate Correlations for Specific Variables")
+var_1_germany = st.selectbox("Choose the first variable (Germany)", num_cols_germany)
+var_2_germany = st.selectbox("Choose the second variable (Germany)", num_cols_germany)
+if var_1_germany != var_2_germany:
+    if st.button("Generate Correlation (Germany)"):
+        correlation_germany = df_germany[[var_1_germany, var_2_germany]].corr().iloc[0, 1].round(2)
+        st.write(f"The correlation between {var_1_germany} and {var_2_germany} (Germany) is {correlation_germany}")
+else:
+    st.warning("Please select different variables.")
+
+var_1_turkey = st.selectbox("Choose the first variable (Turkey)", num_cols_turkey)
+var_2_turkey = st.selectbox("Choose the second variable (Turkey)", num_cols_turkey)
+if var_1_turkey != var_2_turkey:
+    if st.button("Generate Correlation (Turkey)"):
+        correlation_turkey = df_turkey[[var_1_turkey, var_2_turkey]].corr().iloc[0, 1].round(2)
+        st.write(f"The correlation between {var_1_turkey} and {var_2_turkey} (Turkey) is {correlation_turkey}")
+else:
+    st.warning("Please select different variables.")
+
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
